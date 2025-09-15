@@ -92,13 +92,13 @@ int main(){
             break;
         }
         case 2:{
-            int index;
+            
             int id;
             float fuel;
             double distance;
             char status;
             bool isavailable;
-            std::cout << "Enter index (0-2) to add vehicle: ";
+            
             std::string driver;
             std::cout << "Enter Vehicle ID: "; 
             std::cin >> id;
