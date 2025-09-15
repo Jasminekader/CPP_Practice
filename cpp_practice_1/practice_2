@@ -1,0 +1,138 @@
+#include <iostream>
+#include <stdexcept>
+#include <string>
+class FleetVehicle{
+private:
+    int vehicleID;
+    float fuelLevel;
+    double distanceTravelled;
+    std::string driverName;
+    char status;
+    bool isavailable;
+public:
+    FleetVehicle (int id, float fuel, double distance, char status, bool isavailable, std::string driver):vehicleID(id), fuelLevel(fuel), distanceTravelled(distance), status(status),isavailable(isavailable),driverName(driver){} // Parameterized constructor
+        
+    FleetVehicle(): vehicleID(0), fuelLevel(50.0), distanceTravelled(0.0),status('A'),isavailable(true), driverName("Unassigned"){} // Default constructor
+    
+            
+    void updateStatus(){
+        if (fuelLevel<10.0 || !isavailable)
+            status = 'I';
+        else
+            status = 'A';
+            
+        }
+    void assignDriver(const std::string & DName) {
+            driverName=DName;}
+    void refuelVehicle(float fuelAmount){
+        if (fuelAmount <= 0) {
+            throw std::invalid_argument("Fuel amount must be greater than 0!");
+        } else {
+            fuelLevel += fuelAmount;
+            std::cout << "Vehicle refueled successfully. Current fuel level: "<< fuelLevel << std::endl;
+        }
+    }
+    std::string getDriverName() const { return driverName; }
+    void setFuelLevel(float fuel) { fuelLevel = fuel; }
+    float getFuelLevel() const { return fuelLevel; }
+
+    void displayInfo()const {
+        std::cout << "Vehicle ID: " << vehicleID << std::endl;
+        std::cout << "Fuel Level: " << fuelLevel << std::endl;
+        std::cout << "Distance Travelled: " << distanceTravelled << std::endl;
+        std::cout << "Driver Name: " << driverName << std::endl;
+        std::cout << "Status: " << status  << std::endl;
+        std::cout << "Is Available: " << (isavailable ? "Yes" : "No") << std::endl;
+    }
+};
+
+
+
+int main(){
+    FleetVehicle FV[3];
+    int choice;
+    FleetVehicle FV1(101, 45.5, 120.0, 'A', true, "Raj");
+    FleetVehicle FV2(102, 8.0, 300.0, 'A', true, "Priya");
+    FleetVehicle FV3;
+    do{
+        std::cout << "\nFV  Menu \n";
+        std::cout << "1. Add Vehicle Details\n";
+        std::cout << "2. Assign Driver\n";
+        std::cout << "3. Refuel Vehicle\n";
+        std::cout << "4. Update Status\n";
+        std::cout << "5. Display Vehicle Info\n";
+        std::cout << "6. Exit\n";
+        std::cout << "Enter choice: ";
+        std::cin >> choice;
+        switch (choice)
+        {
+        case 1:{
+            int index;
+            int id;
+            float fuel;
+            double distance;
+            char status;
+            bool isavailable;
+            std::cout << "Enter index (0-2) to add vehicle: ";
+            std::string driver;
+            std::cout << "Enter Vehicle ID: "; 
+            std::cin >> id;
+            std::cout << "Enter Fuel Level: ";
+            std::cin >> fuel;
+            std::cout << "Enter Distance Travelled: ";
+            std::cin >> distance;
+            std::cout << "Enter Status (A for Active, I for Inactive): ";
+            std::cin >> status;
+            std::cout << "Is Available (1 for Yes, 0 for No): ";
+            std::cin >> isavailable;
+            std::cout << "Enter Driver Name: ";
+            std::cin >> driver;
+            FV[index]=FleetVehicle(id, fuel, distance, status, isavailable, driver);
+            std::cout << "Vehicle added successfully!" << std::endl;
+            break;
+        }
+        case 2:{
+            int index;
+            int id;
+            float fuel;
+            double distance;
+            char status;
+            bool isavailable;
+            std::cout << "Enter index (0-2) to add vehicle: ";
+            std::string driver;
+            std::cout << "Enter Vehicle ID: "; 
+            std::cin >> id;
+            std::cout << "Enter Fuel Level: ";
+            std::cin >> fuel;
+            std::cout << "Enter Distance Travelled: ";
+            std::cin >> distance;
+            std::cout << "Enter Status (A for Active, I for Inactive): ";
+            std::cin >> status;
+            std::cout << "Is Available (1 for Yes, 0 for No): ";
+            std::cin >> isavailable;
+            std::cout << "Enter Driver Name: ";
+            std::cin >> driver;
+            FV[index]=FleetVehicle(id, fuel, distance, status, isavailable, driver);
+            std::cout << "Vehicle added successfully!" << std::endl;
+            break;
+        }
+        case 3:{
+            for(int i=0;i<3;i++){
+                std::cout << "Vehicle " << i+1 << " Information:" << std::endl;
+                FV[i].displayInfo();
+            }
+            break;
+        }
+        case 4:{
+            std::cout << "Exiting program." << std::endl;
+            break;
+        default:
+            std::cout << "Invalid choice. Please try again." << std::endl;
+            break;
+        }
+        }
+    }while(choice!=4);
+
+    return 0;
+}
+    

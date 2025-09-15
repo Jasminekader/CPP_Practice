@@ -1,0 +1,119 @@
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+
+class Sensor{
+public:
+    int id;
+    float value;
+    float threshold;
+    std::string status;
+    Sensor(int id,float value,float threshold):id(id),value(value),threshold(threshold),status("OK"){}
+
+    virtual void simulateFault() = 0;
+    bool isFaulty(){ 
+        if value >threshold;
+            return true;}
+    virtual~Sensor(){}
+
+};
+class TemperatureSensor:public Sensor{
+public:
+    TemperatureSensor(int id,float value,float threshold):Sensor(id, value, threshold) {}
+
+    void simulateFault() override{
+        value=threshold+10; 
+        status="FAULT";
+    }
+};
+class PressureSensor:public Sensor{
+public:
+    PressureSensor(int id, float value, float threshold): Sensor(id, value, threshold) {}
+    void simulateFault() override{
+        value=threshold+10; 
+        status="FAULT";
+}
+};
+class Actuator{
+public:
+    int id;
+    std::string state;
+    int responseTime;
+    Actuator(int id,int responsetime):id(id),responseTime(responseTime),state("idle"),status("OK"){}
+    void triggerAction(){
+        state="triggered";
+    }
+};
+class FaultInjector{
+    std::vector<Sensor*> sensors;
+    std::vector<Actuator*> actuators;
+    void injectSensorFault(Sensor* s){ s->simulateFault();}
+
+    void injectActuatorDelay(Actuator& a){
+        a.responseTime+=100;
+        a.status="DELAYED";
+    }
+    void injectAllFaults(){
+        for(auto& s:sensors) s->simulateFault();
+        for(auto& a:actuators) {
+            a->responseTime+=100;
+            a->status="DELAYED";}
+    }
+    void reportStatus(){
+        for(auto& s:sensors) cout<<"Sensor ID: "<<s->id<<" Status: "<<s->status<<endl;
+        for(auto& a:actuators) cout<<"Actuator ID: "<<a->id<<" Status: "<<a->status<<endl;
+    }
+}
+class ConfigManager{
+public:
+    void updateThreshold(Sensor& s, float newThreshold){
+        s.threshold=newThreshold;
+    }
+}
+class SimulationEngine{
+public:
+    std::vector<Sensor*> sensors;
+    std::vector<Actuator*> actuators;
+    void runSimulationStep(){
+        for(auto& s:sensors){
+            if(s->isFaulty()){
+                cout<<"Sensor ID: "<<s->id<<" is faulty."<<endl;
+            }
+        }
+        for(auto& a:actuators){
+            a->triggerAction();
+            cout<<"Actuator ID: "<<a->id<<" action triggered."<<endl;
+        }
+    }
+
+}
+class FaultLogger{
+public:
+    void log(Sensor& s){
+        cout<<"Logging fault for Sensor ID: "<<s.id<<" Value: "<<s.value<<" Threshold: "<<s.threshold<<endl;
+    };
+    void logFault(Sensor* s){
+        cout<<"Logging fault for Sensor ID: "<<s->id<<" Value: "<<s->value<<" Threshold: "<<s->threshold<<endl;
+    }
+};
+int main() {
+    TemperatureSensor tempSensor1(101, 95.0, 90.0);
+    PressureSensor pressureSensor1(102, 45.0, 50.0);
+    Actuator actuator1(201, 120);
+
+    vector<Sensor*> sensors = {&tempSensor1, &pressureSensor1};
+    vector<Actuator*> actuators = {&actuator1};
+
+    SimulationEngine engine;
+    engine.sensors = sensors;
+    engine.actuators = actuators;
+
+
+
+    FaultLogger faultLogger;
+    faultLogger.logFault(&tempSensor1);
+    faultLogger.logFault(&pressureSensor1);
+
+    return 0;
+};
