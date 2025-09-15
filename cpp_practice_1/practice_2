@@ -67,13 +67,13 @@ int main(){
         switch (choice)
         {
         case 1:{
-            int index;
+            
             int id;
             float fuel;
             double distance;
             char status;
             bool isavailable;
-            std::cout << "Enter index (0-2) to add vehicle: ";
+            
             std::string driver;
             std::cout << "Enter Vehicle ID: "; 
             std::cin >> id;
@@ -87,7 +87,7 @@ int main(){
             std::cin >> isavailable;
             std::cout << "Enter Driver Name: ";
             std::cin >> driver;
-            FV[index]=FleetVehicle(id, fuel, distance, status, isavailable, driver);
+            FV[choice]=FleetVehicle(id, fuel, distance, status, isavailable, driver);
             std::cout << "Vehicle added successfully!" << std::endl;
             break;
         }
@@ -112,14 +112,14 @@ int main(){
             std::cin >> isavailable;
             std::cout << "Enter Driver Name: ";
             std::cin >> driver;
-            FV[index]=FleetVehicle(id, fuel, distance, status, isavailable, driver);
+            FV[choice]=FleetVehicle(id, fuel, distance, status, isavailable, driver);
             std::cout << "Vehicle added successfully!" << std::endl;
             break;
         }
         case 3:{
-            for(int i=0;i<3;i++){
+            for(int i=0;i<=3;i++){
                 std::cout << "Vehicle " << i+1 << " Information:" << std::endl;
-                FV[i].displayInfo();
+                FV[choice].displayInfo();
             }
             break;
         }
@@ -135,4 +135,3 @@ int main(){
 
     return 0;
 }
-    
