@@ -15,7 +15,7 @@ private:
     Genre genre;
 
 public:
-     Book(int id, float rate, double pr, char status, bool isRef, bool borrowed, string title, Genre genre): bookID(id), rating(rate), price(pr), availabilityStatus(status),
+     Book(int id, float rate, double pr, char status, bool isRef, bool borrowed, std::string title, Genre genre): bookID(id), rating(rate), price(pr), availabilityStatus(status),
           isReferenceOnly(isRef), isBorrowed(borrowed), title(title), genre(genre) {}
 
     Book() : bookID(0), rating(0.0), price(0.0), availabilityStatus('A'),isReferenceOnly(false), isBorrowed(false), title("Untitled"), genre(FICTION) {}
@@ -61,15 +61,29 @@ public:
         }
         std::cout << std::endl;
     }
-    int main() {
-    Book books[3] = {
-        Book(101, 4.5, 299.99, 'A', false, "C++ Primer", Book::TECHNOLOGY),
-        Book(102, 3.8, 150.00, 'B', true, "Design Patterns", Book::SCIENCE),
-        Book()
-    };
 
+int main() {
     
+    Book book1(101, 4.5, 299.99, 'A', false, false, "C++ Primer", Book::TECHNOLOGY);
+    Book book2(102, 3.8, 150.00, 'B', true, false, "Design Patterns", Book::SCIENCE);
+    Book book3;
+     
 
+    book1.displayInfo();
+    book2.displayInfo();
+    book3.displayInfo();
+
+    book1.setBorrowed(true);
+    book1.displayInfo();
+
+    book2.setReferenceOnly(false);
+    book2.displayInfo();
+
+    std::cout << "Is book1 affordable with budget $300? " << (book1.isAffordable(300) ? "Yes" : "No") << std::endl;
+    std::cout << "Is book2 affordable with budget $100? " << (book2.isAffordable(100) ? "Yes" : "No") << std::endl;
+
+    book1.printFormattedPrice();
+    book2.printFormattedPrice();
     return 0;
 }
 
